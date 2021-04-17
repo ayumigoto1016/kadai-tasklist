@@ -50,7 +50,7 @@ class TasksController extends Controller
     {
         $task = new Task;
 
-        // メッセージ作成ビューを表示
+        // タスク作成ビューを表示
         return view('tasks.create', [
             'task' => $task,
         ]);
@@ -84,9 +84,9 @@ class TasksController extends Controller
         ]);
         
         // 前のURLへリダイレクトさせる
-        return back();       
+//        return back();       
         // トップページへリダイレクトさせる
-//        return redirect('/');
+          return redirect('/');
     }
 
     /**
