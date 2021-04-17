@@ -97,13 +97,19 @@ class TasksController extends Controller
      */
     public function show($id)
     {
+
+        if (\Auth::check()) { // 認証済みの場合
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
 
         // タスク詳細ビューでそれを表示
         return view('tasks.show', [
-            'task' => $task,
-        ]);
+            'task' => $task,   
+        ]);  
+        }
+
+          return redirect('/');       
+        
     }
 
     /**
@@ -114,13 +120,17 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
+        
+        if (\Auth::check()) { // 認証済みの場合
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
 
-        // メッセージ編集ビューでそれを表示
+        // タスク編集ビューでそれを表示
         return view('tasks.edit', [
             'task' => $task,
-        ]);
+        ]); 
+        }        
+
     }
 
     /**
@@ -138,7 +148,7 @@ class TasksController extends Controller
             'content' => 'required|max:255',
         ]);
 
-        // idの値でメッセージを検索して取得
+        // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
         // タスクを更新
         $task->status = $request->status;          
