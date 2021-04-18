@@ -54,6 +54,9 @@ class TasksController extends Controller
         return view('tasks.create', [
             'task' => $task,
         ]);
+        
+        return redirect('/');        
+        
     }
 
     /**
@@ -97,9 +100,8 @@ class TasksController extends Controller
      */
     public function show($id)
     {
+        if (\Auth::check()) { // 認証済みの場合
 
-        // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、詳細表示
-        if (\Auth::id() === $task->user_id) {
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
 
@@ -150,15 +152,14 @@ class TasksController extends Controller
             'status' => 'required|max:10',            
             'content' => 'required|max:255',
         ]);
-        // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を更新
-        if (\Auth::id() === $task->user_id) {
+
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
         // タスクを更新
         $task->status = $request->status;          
         $task->content = $request->content;
         $task->save();
-        }
+
         // トップページへリダイレクトさせる
         return redirect('/');
     }
